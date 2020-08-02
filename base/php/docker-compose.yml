@@ -1,0 +1,21 @@
+version: "2"
+services:
+    php:
+        build: ext/
+        image: php:7.2-fpm-ext-base
+        ports:
+            - "9000:9000"
+        volumes:
+            # todo[改] 配置
+            - "./conf/php.ini:/usr/local/etc/php/php.ini"
+            - "./conf/conf.d/extension.ini:/usr/local/etc/php/conf.d/extension.ini"
+            - "./conf/php-fpm.conf:/usr/local/etc/php-fpm.conf"
+            - "./conf/pool.d/www.conf:/usr/local/etc/php-fpm.d/www.conf"
+            # todo[改] 源码
+            - "/srv/www/vhosts/blog:/srv/www/vhosts/blog"
+            # todo[改] 自定义扩展
+            - "./lib/my_dynamic.so:/usr/local/lib/php/extensions/no-debug-non-zts-20170718/my_dynamic.so"
+            # todo[改] 日志
+            - "/var/log/php:/var/log/php"
+        network_mode: "host"
+        container_name: "php_server_base"
