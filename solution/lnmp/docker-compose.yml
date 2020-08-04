@@ -11,7 +11,7 @@ services:
             - "./conf/nginx/nginx.conf:/etc/nginx/nginx.conf"
             - "./conf/nginx/blog.conf:/etc/nginx/conf.d/blog.conf"
             # todo[改] 源码
-            - "/srv/www/vhosts/blog:/srv/www/vhosts/blog"
+            - "/project/solution:/srv/www/vhosts/blog"
             # todo[改] 日志
             - "/var/log/nginx:/var/log/nginx"
         network_mode: "host"
@@ -47,7 +47,7 @@ services:
             - "./conf/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
             - "./conf/php/pool.d/www.conf:/usr/local/etc/php-fpm.d/www.conf"
             # todo[改] 源码
-            - "/srv/www/vhosts/blog:/srv/www/vhosts/blog"
+            - "/project/solution:/srv/www/vhosts/blog"
             # 自定义扩展
             - "./lib/php/my_dynamic.so:/usr/local/lib/php/extensions/no-debug-non-zts-20170718/my_dynamic.so"
             # todo[改] 日志
