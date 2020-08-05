@@ -1,0 +1,17 @@
+version: "2"
+services:
+    redis:
+        build: ext/
+        image: redis-base
+        ports:
+            - "6379:6379"
+        container_name: "redis_base"
+        network_mode: "host"
+        volumes:
+            # todo[改] 配置
+            - "./conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./data:/var/data/redis"
+            # todo[改] 日志
+            - "./log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf

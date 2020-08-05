@@ -11,6 +11,3 @@
 
 # PhpStorm
 .idea/
-*.iml
-*out
-.ftpconfig

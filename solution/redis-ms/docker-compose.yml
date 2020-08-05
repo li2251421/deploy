@@ -1,0 +1,56 @@
+version: "3.6"
+services:
+    m_79:
+        image: redis-base # 来自于base中redis镜像
+        networks: ## 引入外部预先定义的网段
+            redis_net:
+                ipv4_address: 192.168.1.79
+        container_name: redis_m_79
+        ports: # 配置容器与宿主机的端口
+            - "6379:6379"
+        volumes: # 配置数据挂载
+            # todo[改] 配置
+            - "./m_79/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./m_79/data:/var/data/redis"
+            # todo[改] 日志
+            - "./m_79/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    s_80:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.80
+        container_name: redis_s_80
+        ports:
+            - "6380:6379"
+        volumes:
+            # todo[改] 配置
+            - "./s_80/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./s_80/data:/var/data/redis"
+            # todo[改] 日志
+            - "./s_80/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    s_81:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.81
+        container_name: redis_s_81
+        ports:
+            - "6381:6379"
+        volumes:
+            # todo[改] 配置
+            - "./s_81/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./s_81/data:/var/data/redis"
+            # todo[改] 日志
+            - "./s_81/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.1.0/24 redis_net
+    redis_net:
+        external:
+            name: redis_net

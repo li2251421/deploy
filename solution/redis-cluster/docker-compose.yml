@@ -1,0 +1,112 @@
+version: "3.6"
+services:
+    redis_200:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.200
+        container_name: redis_cluster_200
+        ports:
+            - "6320:6379"
+            - "16320:16379"
+        volumes:
+            # todo[改] 配置
+            - "./200/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./200/data:/var/data/redis"
+            # todo[改] 日志
+            - "./200/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_201:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.201
+        container_name: redis_cluster_201
+        ports:
+            - "6321:6379"
+            - "16321:16379"
+        volumes:
+            # todo[改] 配置
+            - "./201/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./201/data:/var/data/redis"
+            # todo[改] 日志
+            - "./201/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_202:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.202
+        container_name: redis_cluster_202
+        ports:
+            - "6322:6379"
+            - "16322:16379"
+        volumes:
+            # todo[改] 配置
+            - "./202/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./202/data:/var/data/redis"
+            # todo[改] 日志
+            - "./202/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_203:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.203
+        container_name: redis_cluster_203
+        ports:
+            - "6323:6379"
+            - "16323:16379"
+        volumes:
+            # todo[改] 配置
+            - "./203/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./203/data:/var/data/redis"
+            # todo[改] 日志
+            - "./203/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_204:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.204
+        container_name: redis_cluster_204
+        ports:
+            - "6324:6379"
+            - "16324:16379"
+        volumes:
+            # todo[改] 配置
+            - "./204/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./204/data:/var/data/redis"
+            # todo[改] 日志
+            - "./204/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_205:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.205
+        container_name: redis_cluster_205
+        ports:
+            - "6325:6379"
+            - "16325:16379"
+        volumes:
+            # todo[改] 配置
+            - "./205/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./205/data:/var/data/redis"
+            # todo[改] 日志
+            - "./205/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.1.0/24 redis_net
+    redis_net:
+        external:
+            name: redis_net
+
+# redis-cli --cluster create 192.168.1.200:6379 192.168.1.201:6379 192.168.1.202:6379 192.168.1.203:6379 192.168.1.204:6379 192.168.1.205:6379 --cluster-replicas 1

@@ -1,0 +1,56 @@
+version: "3.6"
+services:
+    sentinel_179:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.179
+        container_name: redis_sentinel_179
+        ports:
+            - "26379:26379"
+        volumes:
+            # todo[改] 配置
+            - "./sentinel_179/conf/sentinel.conf:/etc/redis/sentinel.conf"
+            # todo[改] 数据
+            - "./sentinel_179/data:/var/data/redis"
+            # todo[改] 日志
+            - "./sentinel_179/log:/var/log/redis"
+        command: /usr/local/bin/redis-sentinel /etc/redis/sentinel.conf
+    sentinel_180:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.180
+        container_name: redis_sentinel_180
+        ports:
+            - "26380:26379"
+        volumes:
+            # todo[改] 配置
+            - "./sentinel_180/conf/sentinel.conf:/etc/redis/sentinel.conf"
+            # todo[改] 数据
+            - "./sentinel_180/data:/var/data/redis"
+            # todo[改] 日志
+            - "./sentinel_180/log:/var/log/redis"
+        command: /usr/local/bin/redis-sentinel /etc/redis/sentinel.conf
+    sentinel_181:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.181
+        container_name: redis_sentinel_181
+        ports:
+            - "26381:26379"
+        volumes:
+            # todo[改] 配置
+            - "./sentinel_181/conf/sentinel.conf:/etc/redis/sentinel.conf"
+            # todo[改] 数据
+            - "./sentinel_181/data:/var/data/redis"
+            # todo[改] 日志
+            - "./sentinel_181/log:/var/log/redis"
+        command: /usr/local/bin/redis-sentinel /etc/redis/sentinel.conf
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.1.0/24 redis_net
+    redis_net:
+        external:
+            name: redis_net
