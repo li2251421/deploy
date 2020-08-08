@@ -102,6 +102,57 @@ services:
             # todo[改] 日志
             - "./205/log:/var/log/redis"
         command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_206:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.206
+        container_name: redis_cluster_206
+        ports:
+            - "6326:6379"
+            - "16326:16379"
+        volumes:
+            # todo[改] 配置
+            - "./206/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./206/data:/var/data/redis"
+            # todo[改] 日志
+            - "./206/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_207:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.207
+        container_name: redis_cluster_207
+        ports:
+            - "6327:6379"
+            - "16327:16379"
+        volumes:
+            # todo[改] 配置
+            - "./207/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./207/data:/var/data/redis"
+            # todo[改] 日志
+            - "./207/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
+    redis_208:
+        image: redis-base
+        networks:
+            redis_net:
+                ipv4_address: 192.168.1.208
+        container_name: redis_cluster_208
+        ports:
+            - "6328:6379"
+            - "16328:16379"
+        volumes:
+            # todo[改] 配置
+            - "./208/conf/redis.conf:/etc/redis/redis.conf"
+            # todo[改] 数据
+            - "./208/data:/var/data/redis"
+            # todo[改] 日志
+            - "./208/log:/var/log/redis"
+        command: /usr/local/bin/redis-server /etc/redis/redis.conf
 # 网段设置
 networks:
     #引用外部预先定义好的网段 docker network create --subnet=192.168.1.0/24 redis_net
@@ -109,4 +160,4 @@ networks:
         external:
             name: redis_net
 
-# redis-cli --cluster create 192.168.1.200:6379 192.168.1.201:6379 192.168.1.202:6379 192.168.1.203:6379 192.168.1.204:6379 192.168.1.205:6379 --cluster-replicas 1
+# redis-cli --cluster create 192.168.1.200:6379 192.168.1.201:6379 192.168.1.202:6379 192.168.1.203:6379 192.168.1.204:6379 192.168.1.205:6379 192.168.1.206:6379 192.168.1.207:6379 192.168.1.208:6379 --cluster-replicas 2
