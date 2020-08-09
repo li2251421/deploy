@@ -1,0 +1,19 @@
+version: "2"
+services:
+    mysql:
+        build: ext/
+        image: mysql-base
+        network_mode: "host"
+        container_name: "mysql_base"
+        ports:
+            - "3306:3306"
+        environment:
+            TZ: 'Asia/Shanghai'
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            # todo[改] 配置
+            - "./conf/my.cnf:/etc/my.cnf:ro"
+            # todo[改] 数据
+            - "./data:/var/lib/mysql"
+            # todo[改] pid
+            - "./run:/var/run/mysql"

@@ -1,0 +1,17 @@
+version: "2"
+services:
+    nginx:
+        build: ext/
+        image: nginx-base
+        network_mode: "host"
+        container_name: "nginx_base"
+        ports:
+            - "80:80"
+        volumes:
+            # todo[改] 配置
+            - "./conf/nginx.conf:/etc/nginx/nginx.conf"
+            - "./conf/blog.conf:/etc/nginx/conf.d/blog.conf"
+            # todo[改] 源码
+            - "/project/solution:/srv/www/vhosts/blog"
+            # todo[改] 日志
+            - "./log:/var/log/nginx"

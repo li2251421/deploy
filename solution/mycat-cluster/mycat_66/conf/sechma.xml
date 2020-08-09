@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+    <schema name="test" checkSQLschema="true" sqlMaxLimit="100">
+        <table name="orders" dataNode="dn1,dn2,dn3" rule="mod-long"/>
+    </schema>
+
+    <dataNode name="dn1" dataHost="m_6" database="test"/>
+    <dataNode name="dn2" dataHost="s_7" database="test"/>
+    <dataNode name="dn3" dataHost="s_8" database="test"/>
+
+    <dataHost name="m_6" maxCon="1000" minCon="10" balance="0"
+              writeType="0" dbType="mysql" dbDriver="native" switchType="1" slaveThreshold="100">
+        <heartbeat>select user()</heartbeat>
+        <!-- can have multi write hosts -->
+        <writeHost host="hostM1" url="192.168.10.6:3306" user="root"
+                   password="root">
+            <!-- can have multi read hosts -->
+            <readHost host="hostS2" url="192.168.10.6:3306" user="root" password="root"/>
+        </writeHost>
+    </dataHost>
+    <dataHost name="s_7" maxCon="1000" minCon="10" balance="0"
+              writeType="0" dbType="mysql" dbDriver="native" switchType="1" slaveThreshold="100">
+        <heartbeat>select user()</heartbeat>
+        <!-- can have multi write hosts -->
+        <writeHost host="hostM1" url="192.168.10.7:3306" user="root"
+                   password="root">
+            <!-- can have multi read hosts -->
+            <readHost host="hostS2" url="192.168.10.7:3306" user="root" password="root"/>
+        </writeHost>
+    </dataHost>
+    <dataHost name="s_8" maxCon="1000" minCon="10" balance="0"
+              writeType="0" dbType="mysql" dbDriver="native" switchType="1" slaveThreshold="100">
+        <heartbeat>select user()</heartbeat>
+        <!-- can have multi write hosts -->
+        <writeHost host="hostM1" url="192.168.10.8:3306" user="root"
+                   password="root">
+            <!-- can have multi read hosts -->
+            <readHost host="hostS2" url="192.168.10.8:3306" user="root" password="root"/>
+        </writeHost>
+    </dataHost>
+</mycat:schema>

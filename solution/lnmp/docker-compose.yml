@@ -1,47 +1,48 @@
 version: "2"
 services:
     nginx:
-        image: nginx:latest
+        image: nginx-base
+        network_mode: "host"
+        container_name: "nginx_server"
         ports:
             - "80:80"
         depends_on:
             - "php"
         volumes:
-            # 配置
+            # todo[改] 配置
             - "./conf/nginx/nginx.conf:/etc/nginx/nginx.conf"
             - "./conf/nginx/blog.conf:/etc/nginx/conf.d/blog.conf"
             # todo[改] 源码
             - "/project/solution:/srv/www/vhosts/blog"
             # todo[改] 日志
-            - "/var/log/nginx:/var/log/nginx"
-        network_mode: "host"
-        container_name: "nginx_server"
+            - "./log/nginx:/var/log/nginx"
 
     mysql:
-        image: mysql:5.7
-        volumes:
-            # 配置
-            - "./conf/mysql/my.cnf:/etc/my.cnf:ro"
-            # todo[改] 数据
-            - "/srv/data/mysql:/var/lib/mysql"
-            # todo[改] pid
-            - "/srv/data/run/mysql:/var/run/mysql"
+        image: mysql-base
+        network_mode: "host"
+        container_name: "mysql_server"
         ports:
             - "3306:3306"
         environment:
             #MYSQL_USER: root
             #MYSQL_PASSWORD: root
             MYSQL_ROOT_PASSWORD: root
-        network_mode: "host"
-        container_name: "mysql_server"
+        volumes:
+            # todo[改] 配置
+            - "./conf/mysql/my.cnf:/etc/my.cnf:ro"
+            # todo[改] 数据
+            - "./data/mysql:/var/lib/mysql"
+            # todo[改] pid
+            - "./run/mysql:/var/run/mysql"
 
     php:
-        build: ext/php/
-        image: php:7.2-fpm-ext
+        image: php-base
+        network_mode: "host"
+        container_name: "php_server"
         ports:
             - "9000:9000"
         volumes:
-            # 配置
+            # todo[改] 配置
             - "./conf/php/php.ini:/usr/local/etc/php/php.ini"
             - "./conf/php/conf.d/extension.ini:/usr/local/etc/php/conf.d/extension.ini"
             - "./conf/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
@@ -51,6 +52,4 @@ services:
             # 自定义扩展
             - "./lib/php/my_dynamic.so:/usr/local/lib/php/extensions/no-debug-non-zts-20170718/my_dynamic.so"
             # todo[改] 日志
-            - "/var/log/php:/var/log/php"
-        network_mode: "host"
-        container_name: "php_server"
+            - "./log/php:/var/log/php"

@@ -1,0 +1,20 @@
+version: "2"
+services:
+    haproxy:
+        build: ext/
+        image: haproxy-base
+        ports:
+            - "8166:8166"
+            - "1080:1080"
+        container_name: "haproxy_base"
+        network_mode: "host"
+        volumes:
+            # todo[改] 配置
+            - "./conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            # todo[改] 数据
+            - "./data:/var/lib/haproxy"
+            # todo[改] pid
+            - "./run:/var/run"
+            # todo[改] 日志
+            # - "./log:/usr/local/mycat/logs"
+        command: haproxy -f /etc/haproxy/haproxy.cfg

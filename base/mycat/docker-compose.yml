@@ -1,0 +1,24 @@
+version: "2"
+services:
+    mycat:
+        build: ext/
+        image: mycat-base
+        ports:
+            - "8066:8066"
+            - "9066:9066"
+        container_name: "mycat_base"
+        network_mode: "host"
+        volumes:
+            # todo[改] 配置
+            - "./conf/server.xml:/usr/local/mycat/conf/server.xml"
+            - "./conf/sechma.xml:/usr/local/mycat/conf/schema.xml"
+            - "./conf/rule.xml:/usr/local/mycat/conf/rule.xml"
+            - "./conf/wrapper.conf:/usr/local/mycat/conf/wrapper.conf"
+            - "./conf/autopartition-long.txt:/usr/local/mycat/conf/autopartition-long.txt"
+            - "./conf/partition-hash-int.txt:/usr/local/mycat/conf/partition-hash-int.txt"
+            - "./conf/partition-range-mod.txt:/usr/local/mycat/conf/partition-range-mod.txt"
+            # todo[改] 日志
+            - "./log:/usr/local/mycat/logs"
+        command: /usr/local/mycat/bin/mycat console
+
+# mysql -uroot -p123456 -P8066 -h 192.168.220.178

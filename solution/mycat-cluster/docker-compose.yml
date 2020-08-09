@@ -1,0 +1,147 @@
+version: '2'
+services:
+    haproxy_166:
+        image: haproxy-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.166
+        container_name: haproxy_166
+        ports:
+            - "8166:8166"
+            - "1080:1080"
+        depends_on:
+            - mycat_66
+            - mycat_67
+        volumes:
+            # todo[改] 配置
+            - "./haproxy_166/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            # todo[改] 数据
+            - "./haproxy_166/data:/var/lib/haproxy"
+            # todo[改] pid
+            - "./haproxy_166/run:/var/run"
+            # todo[改] 日志
+            # - "./haproxy_166/log:/usr/local/mycat/logs"
+        command: haproxy -f /etc/haproxy/haproxy.cfg
+    haproxy_167:
+        image: haproxy-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.167
+        container_name: haproxy_167
+        ports:
+            - "8167:8167"
+            - "1081:1081"
+        depends_on:
+            - mycat_66
+            - mycat_67
+        volumes:
+            # todo[改] 配置
+            - "./haproxy_167/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            # todo[改] 数据
+            - "./haproxy_167/data:/var/lib/haproxy"
+            # todo[改] pid
+            - "./haproxy_167/run:/var/run"
+            # todo[改] 日志
+            # - "./haproxy_167/log:/usr/local/mycat/logs"
+        command: haproxy -f /etc/haproxy/haproxy.cfg
+    mycat_66:
+        image: mycat-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.66
+        container_name: mycat_66
+        ports:
+            - "8066:8066"
+            - "9066:9066"
+        depends_on:
+            - mysql_m_6
+            - mysql_s_7
+            - mysql_s_8
+        volumes:
+            # todo[改] 配置
+            - "./mycat_66/conf/server.xml:/usr/local/mycat/conf/server.xml"
+            - "./mycat_66/conf/sechma.xml:/usr/local/mycat/conf/schema.xml"
+            - "./mycat_66/conf/rule.xml:/usr/local/mycat/conf/rule.xml"
+            - "./mycat_66/conf/wrapper.conf:/usr/local/mycat/conf/wrapper.conf"
+            # todo[改] 日志
+            - "./mycat_66/log:/usr/local/mycat/logs"
+        command: /usr/local/mycat/bin/mycat console
+    mycat_67:
+        image: mycat-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.67
+        container_name: mycat_67
+        ports:
+            - "8067:8066"
+            - "9067:9066"
+        depends_on:
+            - mysql_m_6
+            - mysql_s_7
+            - mysql_s_8
+        volumes:
+            # todo[改] 配置
+            - "./mycat_67/conf/server.xml:/usr/local/mycat/conf/server.xml"
+            - "./mycat_67/conf/sechma.xml:/usr/local/mycat/conf/schema.xml"
+            - "./mycat_67/conf/rule.xml:/usr/local/mycat/conf/rule.xml"
+            - "./mycat_67/conf/wrapper.conf:/usr/local/mycat/conf/wrapper.conf"
+            # todo[改] 日志
+            - "./mycat_67/log:/usr/local/mycat/logs"
+        command: /usr/local/mycat/bin/mycat console
+    mysql_m_6:
+        image: mysql-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.6
+        container_name: mysql_m_6
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            # todo[改] 配置
+            - "./mysql_m_6/conf/my.cnf:/etc/my.cnf:ro"
+            # todo[改] 数据
+            - "./mysql_m_6/data:/var/lib/mysql"
+            # todo[改] pid
+            - "./mysql_m_6/run:/var/run/mysql"
+    mysql_s_7:
+        image: mysql-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.7
+        container_name: mysql_s_7
+        ports:
+            - "3307:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            # todo[改] 配置
+            - "./mysql_s_7/conf/my.cnf:/etc/my.cnf:ro"
+            # todo[改] 数据
+            - "./mysql_s_7/data:/var/lib/mysql"
+            # todo[改] pid
+            - "./mysql_s_7/run:/var/run/mysql"
+    mysql_s_8:
+        image: mysql-base
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.8
+        container_name: mysql_s_8
+        ports:
+            - "3308:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            # todo[改] 配置
+            - "./mysql_s_8/conf/my.cnf:/etc/my.cnf:ro"
+            # todo[改] 数据
+            - "./mysql_s_8/data:/var/lib/mysql"
+            # todo[改] pid
+            - "./mysql_s_8/run:/var/run/mysql"
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.10.0/24 mysql_net
+    mysql_net:
+        external:
+            name: mysql_net

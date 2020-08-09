@@ -1,5 +1,7 @@
 FROM php:7.2-fpm
 
+LABEL author=kepreal
+
 # 更新为国内镜像
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak \
     && echo 'deb http://mirrors.163.com/debian/ stretch main non-free contrib' > /etc/apt/sources.list \
