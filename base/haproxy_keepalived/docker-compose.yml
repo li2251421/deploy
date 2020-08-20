@@ -1,0 +1,38 @@
+version: "2"
+services:
+    haproxy_keepalived:
+        build: ext/
+        image: haproxy_keepalived-base
+        ports:
+            - "8166:8166"
+            - "1080:1080"
+        container_name: "haproxy_keepalived_base"
+        networks:
+            mysql_net:
+                ipv4_address: 192.168.10.166
+        privileged: true
+        volumes:
+            # todo[改] 配置
+            - "./conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            - "./conf/keepalived.conf:/etc/keepalived/keepalived.conf"
+            - "./conf/haproxy_check.sh:/etc/keepalived/haproxy_check.sh"
+            - "./conf/entrypoint.sh:/etc/entrypoint.sh"
+            # todo[改] 数据
+            - "./data:/var/lib/haproxy"
+            # todo[改] pid
+            - "./run:/var/run"
+            # todo[改] 日志
+            - "./log/keepalived:/var/log/keepalived"
+        command: haproxy -f /etc/haproxy/haproxy.cfg
+        #entrypoint: /etc/entrypoint.sh
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.10.0/24 mysql_net
+    mysql_net:
+        external:
+            name: mysql_net
+
+# todo 进入容器后需手动启动 keepalived
+# docker exec -it haproxy_keepalived_base /bin/bash
+# chmod +x /etc/keepalived/haproxy_check.sh
+# service keepalived start

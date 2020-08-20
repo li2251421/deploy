@@ -14,10 +14,9 @@
 ### mycat
 - jdk-1.8.0_20
 - mycat-1.6.7.3
-### haproxy
-- 基于 haproxy:1.7
-### keepalived
-待续...
+### haproxy_keepalived
+- 基于 haproxy:latest
+- 安装keepalived
 
 ## 部署方案
 ### lnmp
@@ -36,9 +35,7 @@ nginx + mysql + php 基础环境
 ### redis集群
 - 9个节点(200~208)
 - 3主各带2从，随机分配
-### mycat集群 
+### mycat高可用集群 
 - 2 台 mycat + 3 台mysql(主从模式配置待续...)
 - haproxy做mycat负载均衡
-- keepalived做haproxy高可用(docker网桥模式有问题，部署方案待续...)
-### haproxy_keepalived
-待续...
+- keepalived做haproxy高可用

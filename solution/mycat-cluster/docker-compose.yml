@@ -1,48 +1,54 @@
 version: '2'
 services:
-    haproxy_166:
-        image: haproxy-base
+    haproxy_keepalived_166:
+        image: haproxy_keepalived-base
         networks:
             mysql_net:
                 ipv4_address: 192.168.10.166
-        container_name: haproxy_166
+        container_name: haproxy_keepalived_166
         ports:
             - "8166:8166"
             - "1080:1080"
+        privileged: true
         depends_on:
             - mycat_66
             - mycat_67
         volumes:
             # todo[改] 配置
-            - "./haproxy_166/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            - "./haproxy_keepalived_166/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            - "./haproxy_keepalived_166/conf/keepalived.conf:/etc/keepalived/keepalived.conf"
+            - "./haproxy_keepalived_166/conf/haproxy_check.sh:/etc/keepalived/haproxy_check.sh"
             # todo[改] 数据
-            - "./haproxy_166/data:/var/lib/haproxy"
+            - "./haproxy_keepalived_166/data:/var/lib/haproxy"
             # todo[改] pid
-            - "./haproxy_166/run:/var/run"
+            - "./haproxy_keepalived_166/run:/var/run"
             # todo[改] 日志
-            # - "./haproxy_166/log:/usr/local/mycat/logs"
+            - "./haproxy_keepalived_166/log/keepalived:/var/log/keepalived"
         command: haproxy -f /etc/haproxy/haproxy.cfg
-    haproxy_167:
-        image: haproxy-base
+    haproxy_keepalived_167:
+        image: haproxy_keepalived-base
         networks:
             mysql_net:
                 ipv4_address: 192.168.10.167
-        container_name: haproxy_167
+        container_name: haproxy_keepalived_167
         ports:
-            - "8167:8167"
-            - "1081:1081"
+            - "8167:8166"
+            - "1081:1080"
+        privileged: true
         depends_on:
             - mycat_66
             - mycat_67
         volumes:
             # todo[改] 配置
-            - "./haproxy_167/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            - "./haproxy_keepalived_167/conf/haproxy.cfg:/etc/haproxy/haproxy.cfg"
+            - "./haproxy_keepalived_167/conf/keepalived.conf:/etc/keepalived/keepalived.conf"
+            - "./haproxy_keepalived_167/conf/haproxy_check.sh:/etc/keepalived/haproxy_check.sh"
             # todo[改] 数据
-            - "./haproxy_167/data:/var/lib/haproxy"
+            - "./haproxy_keepalived_167/data:/var/lib/haproxy"
             # todo[改] pid
-            - "./haproxy_167/run:/var/run"
+            - "./haproxy_keepalived_167/run:/var/run"
             # todo[改] 日志
-            # - "./haproxy_167/log:/usr/local/mycat/logs"
+            - "./haproxy_keepalived_167/log/keepalived:/var/log/keepalived"
         command: haproxy -f /etc/haproxy/haproxy.cfg
     mycat_66:
         image: mycat-base
@@ -145,3 +151,8 @@ networks:
     mysql_net:
         external:
             name: mysql_net
+
+# todo haproxy_keepalived_166/167进入后需手动启动 keepalived
+# docker exec -it haproxy_keepalived_166 /bin/bash
+# chmod +x /etc/keepalived/haproxy_check.sh
+# service keepalived start
