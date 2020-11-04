@@ -1,0 +1,53 @@
+version: "3.6"
+services:
+    etcd_10:
+        image: etcd-base # 来自于base中etcd镜像
+        networks: ## 引入外部预先定义的网段
+            etcd_net:
+                ipv4_address: 192.168.20.10
+        container_name: etcd_10
+        ports: # 配置容器与宿主机的端口
+            - "2310:2379"
+            - "2311:2380"
+        volumes: # 配置数据挂载
+            # todo[改] 配置
+            - "./etcd_10/conf/etcd.yml:/etc/etcd/etcd.yml"
+            # todo[改] 数据
+            - "./etcd_10/data:/var/data/etcd"
+        command: etcd --config-file /etc/etcd/etcd.yml
+    etcd_20:
+        image: etcd-base
+        networks:
+            etcd_net:
+                ipv4_address: 192.168.20.20
+        container_name: etcd_20
+        ports:
+            - "2320:2379"
+            - "2321:2380"
+        volumes:
+            # todo[改] 配置
+            - "./etcd_20/conf/etcd.yml:/etc/etcd/etcd.yml"
+            # todo[改] 数据
+            - "./etcd_20/data:/var/data/etcd"
+        command: etcd --config-file /etc/etcd/etcd.yml
+    etcd_30:
+        image: etcd-base
+        networks:
+            etcd_net:
+                ipv4_address: 192.168.20.30
+        container_name: etcd_30
+        ports:
+            - "2330:2379"
+            - "2331:2380"
+        volumes:
+            # todo[改] 配置
+            - "./etcd_30/conf/etcd.yml:/etc/etcd/etcd.yml"
+            # todo[改] 数据
+            - "./etcd_30/data:/var/data/etcd"
+        command: etcd --config-file /etc/etcd/etcd.yml
+# 网段设置
+networks:
+    #引用外部预先定义好的网段 docker network create --subnet=192.168.20.0/24 etcd_net
+    etcd_net:
+        external:
+            name: etcd_net

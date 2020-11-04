@@ -1,0 +1,4 @@
+name: 'etcd_base'
+data-dir: '/var/data/etcd'
+# 用于监听客户端通讯的URL列表
+listen-client-urls: 'http://0.0.0.0:2379'

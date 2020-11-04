@@ -1,0 +1,16 @@
+version: "2"
+services:
+    etcd:
+        build: ext/
+        image: etcd-base
+        ports:
+            - "2379:2379"
+            - "2380:2380"
+        container_name: "etcd_base"
+        network_mode: "host"
+        volumes:
+            # todo[改] 配置
+            - "./conf/etcd.yml:/etc/etcd/etcd.yml"
+            # todo[改] 数据
+            - "./data:/var/data/etcd"
+        command: etcd --config-file /etc/etcd/etcd.yml

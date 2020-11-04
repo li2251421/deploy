@@ -1,0 +1,15 @@
+name: 'etcd_10'
+data-dir: '/var/data/etcd'
+# 用于监听客户端通讯的URL列表
+listen-client-urls: 'http://0.0.0.0:2379'
+# 列出这个成员的客户端URL，通告给集群中的其他成员
+advertise-client-urls: 'http://192.168.20.10:2379'
+# 用于监听伙伴通讯的URL列表
+listen-peer-urls: 'http://192.168.20.10:2380'
+initial-cluster-token: 'etcd-cluster'
+# 列出这个成员的伙伴 URL 以便通告给集群的其他成员
+initial-advertise-peer-urls: 'http://192.168.20.10:2380'
+# 启动初始化集群配置
+initial-cluster: 'etcd_10=http://etcd_10:2380,etcd_20=http://etcd_20:2380,etcd_30=http://etcd_30:2380'
+# 初始化集群状态("new" or "existing")
+initial-cluster-state: 'new'
