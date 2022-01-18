@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 5s # 多久获取一次目标
+  evaluation_interval: 15s # 多久评估一次规则
+
+scrape_configs: # 抓取资源配置
+  - job_name: node
+    static_configs:
+      - targets: [ 'node-exporter:9100' ] # NOT localhost since we named the host of service in docker-compose file
