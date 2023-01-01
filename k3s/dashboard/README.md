@@ -1,7 +1,7 @@
 # k3s
 
 ## 代理加速
-export http_proxy=http://192.168.2.103:7890;export https_proxy=http://192.168.2.103:7890
+export http_proxy=http://192.168.2.101:7890;export https_proxy=http://192.168.2.101:7890
 
 ## 文档参考
 https://docs.rancher.cn/docs/k3s/installation/kube-dashboard/_index
